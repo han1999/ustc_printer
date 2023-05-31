@@ -1,0 +1,338 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hanxiao.mapper.OrderMapper">
+  <resultMap id="BaseResultMap" type="com.hanxiao.bean.Order">
+    <id column="order_id" jdbcType="INTEGER" property="orderId" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="filename" jdbcType="VARCHAR" property="filename" />
+    <result column="print_color" jdbcType="TINYINT" property="printColor" />
+    <result column="page_size" jdbcType="TINYINT" property="pageSize" />
+    <result column="page_numbers" jdbcType="INTEGER" property="pageNumbers" />
+    <result column="delivery_mode" jdbcType="TINYINT" property="deliveryMode" />
+    <result column="delivery_address" jdbcType="VARCHAR" property="deliveryAddress" />
+    <result column="status" jdbcType="TINYINT" property="status" />
+    <result column="price" jdbcType="DECIMAL" property="price" />
+    <result column="other_demand" jdbcType="VARCHAR" property="otherDemand" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    order_id, user_id, filename, print_color, page_size, page_numbers, delivery_mode, 
+    delivery_address, status, price, other_demand, create_time, update_time
+  </sql>
+  <select id="selectByExample" parameterType="com.hanxiao.bean.OrderExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from tb_order
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_order
+    where order_id = #{orderId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from tb_order
+    where order_id = #{orderId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.hanxiao.bean.OrderExample">
+    delete from tb_order
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.hanxiao.bean.Order">
+    insert into tb_order (order_id, user_id, filename, 
+      print_color, page_size, page_numbers, 
+      delivery_mode, delivery_address, status, 
+      price, other_demand, create_time, 
+      update_time)
+    values (#{orderId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{filename,jdbcType=VARCHAR}, 
+      #{printColor,jdbcType=TINYINT}, #{pageSize,jdbcType=TINYINT}, #{pageNumbers,jdbcType=INTEGER}, 
+      #{deliveryMode,jdbcType=TINYINT}, #{deliveryAddress,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, 
+      #{price,jdbcType=DECIMAL}, #{otherDemand,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hanxiao.bean.Order">
+    insert into tb_order
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="orderId != null">
+        order_id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="filename != null">
+        filename,
+      </if>
+      <if test="printColor != null">
+        print_color,
+      </if>
+      <if test="pageSize != null">
+        page_size,
+      </if>
+      <if test="pageNumbers != null">
+        page_numbers,
+      </if>
+      <if test="deliveryMode != null">
+        delivery_mode,
+      </if>
+      <if test="deliveryAddress != null">
+        delivery_address,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="price != null">
+        price,
+      </if>
+      <if test="otherDemand != null">
+        other_demand,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="orderId != null">
+        #{orderId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="filename != null">
+        #{filename,jdbcType=VARCHAR},
+      </if>
+      <if test="printColor != null">
+        #{printColor,jdbcType=TINYINT},
+      </if>
+      <if test="pageSize != null">
+        #{pageSize,jdbcType=TINYINT},
+      </if>
+      <if test="pageNumbers != null">
+        #{pageNumbers,jdbcType=INTEGER},
+      </if>
+      <if test="deliveryMode != null">
+        #{deliveryMode,jdbcType=TINYINT},
+      </if>
+      <if test="deliveryAddress != null">
+        #{deliveryAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=TINYINT},
+      </if>
+      <if test="price != null">
+        #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="otherDemand != null">
+        #{otherDemand,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.hanxiao.bean.OrderExample" resultType="java.lang.Long">
+    select count(*) from tb_order
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update tb_order
+    <set>
+      <if test="record.orderId != null">
+        order_id = #{record.orderId,jdbcType=INTEGER},
+      </if>
+      <if test="record.userId != null">
+        user_id = #{record.userId,jdbcType=INTEGER},
+      </if>
+      <if test="record.filename != null">
+        filename = #{record.filename,jdbcType=VARCHAR},
+      </if>
+      <if test="record.printColor != null">
+        print_color = #{record.printColor,jdbcType=TINYINT},
+      </if>
+      <if test="record.pageSize != null">
+        page_size = #{record.pageSize,jdbcType=TINYINT},
+      </if>
+      <if test="record.pageNumbers != null">
+        page_numbers = #{record.pageNumbers,jdbcType=INTEGER},
+      </if>
+      <if test="record.deliveryMode != null">
+        delivery_mode = #{record.deliveryMode,jdbcType=TINYINT},
+      </if>
+      <if test="record.deliveryAddress != null">
+        delivery_address = #{record.deliveryAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=TINYINT},
+      </if>
+      <if test="record.price != null">
+        price = #{record.price,jdbcType=DECIMAL},
+      </if>
+      <if test="record.otherDemand != null">
+        other_demand = #{record.otherDemand,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update tb_order
+    set order_id = #{record.orderId,jdbcType=INTEGER},
+      user_id = #{record.userId,jdbcType=INTEGER},
+      filename = #{record.filename,jdbcType=VARCHAR},
+      print_color = #{record.printColor,jdbcType=TINYINT},
+      page_size = #{record.pageSize,jdbcType=TINYINT},
+      page_numbers = #{record.pageNumbers,jdbcType=INTEGER},
+      delivery_mode = #{record.deliveryMode,jdbcType=TINYINT},
+      delivery_address = #{record.deliveryAddress,jdbcType=VARCHAR},
+      status = #{record.status,jdbcType=TINYINT},
+      price = #{record.price,jdbcType=DECIMAL},
+      other_demand = #{record.otherDemand,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hanxiao.bean.Order">
+    update tb_order
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="filename != null">
+        filename = #{filename,jdbcType=VARCHAR},
+      </if>
+      <if test="printColor != null">
+        print_color = #{printColor,jdbcType=TINYINT},
+      </if>
+      <if test="pageSize != null">
+        page_size = #{pageSize,jdbcType=TINYINT},
+      </if>
+      <if test="pageNumbers != null">
+        page_numbers = #{pageNumbers,jdbcType=INTEGER},
+      </if>
+      <if test="deliveryMode != null">
+        delivery_mode = #{deliveryMode,jdbcType=TINYINT},
+      </if>
+      <if test="deliveryAddress != null">
+        delivery_address = #{deliveryAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="price != null">
+        price = #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="otherDemand != null">
+        other_demand = #{otherDemand,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where order_id = #{orderId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hanxiao.bean.Order">
+    update tb_order
+    set user_id = #{userId,jdbcType=INTEGER},
+      filename = #{filename,jdbcType=VARCHAR},
+      print_color = #{printColor,jdbcType=TINYINT},
+      page_size = #{pageSize,jdbcType=TINYINT},
+      page_numbers = #{pageNumbers,jdbcType=INTEGER},
+      delivery_mode = #{deliveryMode,jdbcType=TINYINT},
+      delivery_address = #{deliveryAddress,jdbcType=VARCHAR},
+      status = #{status,jdbcType=TINYINT},
+      price = #{price,jdbcType=DECIMAL},
+      other_demand = #{otherDemand,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where order_id = #{orderId,jdbcType=INTEGER}
+  </update>
+</mapper>
